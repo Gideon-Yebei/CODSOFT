@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Main" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="in.codsoft.MainApplication" />
-    <module name="CODSOFT" />
+    <module name="JAVAINTERN" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

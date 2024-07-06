@@ -3,17 +3,24 @@ package in.codsoft.task4;
 import in.codsoft.util.ConsoleUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
+/**
+ * QuizApplication class implements a timed quiz application.
+ */
 public class QuizApplication implements Quiz {
     private final List<QuizQuestion> questions;
     private final Scanner scanner;
     private int score;
     private int currentQuestionIndex;
 
+    /**
+     * Constructs a QuizApplication instance.
+     */
     public QuizApplication() {
         this.questions = new ArrayList<>();
         this.score = 0;
@@ -22,10 +29,13 @@ public class QuizApplication implements Quiz {
         initializeQuestions();
     }
 
+    /**
+     * Initializes the quiz questions.
+     */
     private void initializeQuestions() {
         questions.add(new QuizQuestion("What is the capital of France?", new String[]{"1. Berlin", "2. Madrid", "3. Paris", "4. Rome"}, 3));
         questions.add(new QuizQuestion("Which planet is known as the Red Planet?", new String[]{"1. Earth", "2. Mars", "3. Jupiter", "4. Saturn"}, 2));
-        // Add more questions as needed
+        // Add more questions
     }
 
     @Override
@@ -48,8 +58,7 @@ public class QuizApplication implements Quiz {
     public void presentQuestion() {
         QuizQuestion question = questions.get(currentQuestionIndex);
         System.out.println(ConsoleUtil.colorText(question.question(), ConsoleUtil.BLUE));
-        IntStream.range(0, question.options().length)
-                .mapToObj(i -> ConsoleUtil.colorText(question.options()[i], ConsoleUtil.YELLOW))
+        Arrays.stream(question.options()).map(s -> ConsoleUtil.colorText(s, ConsoleUtil.YELLOW))
                 .forEach(System.out::println);
         System.out.print(ConsoleUtil.colorText("Enter your answer (1-4): ", ConsoleUtil.CYAN));
     }
@@ -97,7 +106,7 @@ public class QuizApplication implements Quiz {
             score++;
             System.out.println(ConsoleUtil.colorText("Correct!", ConsoleUtil.GREEN));
         } else {
-            System.out.println(ConsoleUtil.colorText("Incorrect. The correct answer was " + question.correctAnswer(), ConsoleUtil.RED));
+            System.out.println(ConsoleUtil.colorText("Incorrect. The correct answer was " + question.options()[question.correctAnswer() - 1], ConsoleUtil.RED));
         }
         currentQuestionIndex++;
     }

@@ -1,27 +1,20 @@
 package in.codsoft.task5;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Student {
     private String studentId;
     private String name;
-    private List<Course> registeredCourses;
+    private List<Course> registeredCourses; // Assuming Course class has been defined correctly
 
     public Student(String studentId, String name) {
         this.studentId = studentId;
         this.name = name;
-        this.registeredCourses = new ArrayList<>();
+        this.registeredCourses = new ArrayList<>(); // Initialize the registeredCourses list
     }
 
-    // Getters and Setters
+    // Getters and setters for studentId, name, and registeredCourses
     public String getStudentId() {
         return studentId;
     }
@@ -46,20 +39,8 @@ public class Student {
         this.registeredCourses = registeredCourses;
     }
 
-    public void addCourse(Course course) {
-        registeredCourses.add(course);
-    }
-
-    public void removeCourse(Course course) {
-        registeredCourses.remove(course);
-    }
-
     @Override
     public String toString() {
-        return "Student{" +
-                "studentId='" + studentId + '\'' +
-                ", name='" + name + '\'' +
-                ", registeredCourses=" + registeredCourses +
-                '}';
+        return "Student ID: " + studentId + ", Name: " + name + ", Registered Courses: " + registeredCourses;
     }
 }

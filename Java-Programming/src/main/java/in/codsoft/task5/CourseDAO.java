@@ -34,7 +34,7 @@ public class CourseDAO {
 
     public void displayCourses() {
         List<Course> courses = getAllCourses();
-        System.out.println("Available Courses:");
+        System.out.println("\u001B[32mAvailable Courses:\u001B[0m");
         System.out.println("--------------------------------------------------");
         System.out.printf("%-15s %-30s %-40s %-10s %-20s%n", "Course Code", "Title", "Description", "Capacity", "Schedule");
         System.out.println("--------------------------------------------------");
@@ -56,16 +56,32 @@ public class CourseDAO {
             statement.setInt(4, course.getCapacity());
             statement.setString(5, course.getSchedule());
             statement.executeUpdate();
+            System.out.println("\u001B[32mCourse added successfully.\u001B[0m");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void removeCourse(String courseCode) {
-        String sql = "DELETE FROM Courses WHERE course_code = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        // Remove related registered courses first
+        String deleteRegisteredCoursesSql = "DELETE FROM RegisteredCourses WHERE course_code = ?";
+        try (PreparedStatement statement = connection.prepareStatement(deleteRegisteredCoursesSql)) {
             statement.setString(1, courseCode);
             statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Now delete the course itself
+        String deleteCourseSql = "DELETE FROM Courses WHERE course_code = ?";
+        try (PreparedStatement statement = connection.prepareStatement(deleteCourseSql)) {
+            statement.setString(1, courseCode);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Course " + courseCode + " deleted successfully.");
+            } else {
+                System.out.println("Course " + courseCode + " not found.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
